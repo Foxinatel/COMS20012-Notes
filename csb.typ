@@ -3,6 +3,7 @@
   font: "Liberation Serif",
   size: 11pt,
 )
+#set list(marker: ([•], [--]))
 
 #let definitions = table.with(columns : (auto, 1fr))
 
@@ -527,3 +528,59 @@ Initialization Phase:
 )
 
 #colbreak()
+
+== Software Security
+*Memory corruption bugs:* \
+Property of memory unsafe languages. Can lead to:
+- arbitrary read
+- arbitrary write
+- control flow hijack
+- control flow corruption
+
+*Pointers:*
+- Allow you to refer to (semi) arbitrary memory addresses
+- To introduce a bug: Get a pointer pointing somewhere it shouldn't
+
+#definitions(
+  [Spacial safety],[Attempting to access out-of-bounds memory],
+  [Temporal safety],[Attempting to access memory that was previously freed]
+)
+
+*How do we fix these:*\
+Short term:
+- Do not teach programmers unsafe practice
+- Listen to your compiler 
+Longer term:
+- Maybe we should make it harder to do dangerous things?
+- Language standard, compilers, and tools evolve.
+
+*Buffer Overflow:*
+- Caused by writing more data than intended
+- Leads to memory corruption
+Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of the allocated region.
+
+*Consequences:*
+- Unintended modification of all memory
+- Arbitrary code execution
+
+*Counermeasures:*
+- Modern CPUs don't allow you to write and execute regions of memory at the same time
+  - This can still be circumvented with attacks like a "return to libc" attack
+- Stack canaries
+  - By inserting a number before the return address, we can validate that it hasn't been corrupted later
+- Shadow stacks
+  - Keep a second stack that contains only returna addresses
+  - Check for consistency with main stack
+  - Not implemented everywhere
+- Use safer functions
+  - strnpcy is better than strcpy 
+  - fgets is better than gets
+
+#colbreak()
+
+*Format String Errors:*
+- Formatted output functions consist of a format string and a variable number  of arguments
+- By manipulating the format string, we can control execution of the formatted output
+- If there are more placeholders than arguments in the format string, the result is undefined
+- Arguments expected to be passed on the stack, so printf starts reading values from the stack
+- Can be exploited for writing to memory that is out-of-bounds
