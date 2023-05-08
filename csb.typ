@@ -584,3 +584,149 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - If there are more placeholders than arguments in the format string, the result is undefined
 - Arguments expected to be passed on the stack, so printf starts reading values from the stack
 - Can be exploited for writing to memory that is out-of-bounds
+
+// Gonna leave a break here due to the marge jump in topic
+#colbreak()
+
+= Operating Systems
+- Multiplexing: allows multiple people or programs to use the same set of hardware resources -- processors, memory, disks, network connection -- safely and efficiently.
+- Abstractions: processes, threads, address spaces, files, and sockets simplify the usage of hardware resources by organizing information or implementing new capabilities.
+== 1940-1955
+- Computer are exotic experimental equipment
+- Program in machine language
+- Use plugboard to direct computer
+- Program manually loaded via card decks
+- Goal: churn table of numbers (e.g. accounting)
+
+== 1955-1970
+- Move the users away from the computer, give them terminal
+- OS is a simple batch-processing program that:
+  - Loads a user job
+  - Runs it
+  - Moves to the next job
+- Program fails? Record memory, save it, move on
+- Efficient use of hardware (less “downtime”)
+- Hard to debug
+
+*Problems:*
+- Utilization is low (one job at a time)
+- No protection between different jobs
+- Short jobs get stuck behind long ones
+
+*Solutions:*
+- Seperate code and data for better memory protection
+- Multiprogramming: many users share the system
+- Scheduling: let short jobs finish quickly
+
+*The First OS:*
+- OS/360 introduced in 1963
+- Lecture notes seem to suggest it didn't really work until 1968 but I don't have any other source for that
+- Written in assembly code
+
+== 1970-1980
+- Interactive timesharing: many people use the same machine at once
+- Terminals are cheap: everyone gets one! 
+- Emergence of the file systems
+- Try to give reasonable response time 
+- Compatible Time-Sharing System (CTSS)
+  - Developed at MIT
+  - The first general-purpose time-sharing system
+  - Pioneered much of the work on scheduling
+  - Motivation for MULTICS
+- MULTICS
+  - Joint development by MIT, Bell Labs, General Electric
+  - One computer for everyone, people will buy computing as they buy electricity
+  - Many influential ideas: hierarchical file systems, devices as files
+
+== UNIX
+- Ken Thompson (worked on MULTICS) wanted to use an old computer available at Bell Labs
+- He and Dennis Ritchie built a system built by programmers for programmers
+- Originally in assembly, later rewritten in C
+- Universities got the code for experimentation
+- Berkeley added virtual memory support
+- DARPA selected UNIX as its networking platform (ARPANET)
+- UNIX becomes a commercial OS
+- Important ideas popularized by UNIX
+  - OS written in a high-level language
+  - OS is portable across hardware platforms
+  - Mountable file systems
+
+== 1980-1990
+- Put a computer in each terminal!
+- CP/M first personal computer operating system.
+- IBM needed an OS for its PC, CP/M behind schedule
+- Approached Bill Gates (Microsoft) to build one
+- Gates approached Seattle Computer Products, bought 86-DOS, and created MS-DOS
+- Goal: run  Control Program/Monito (CP/M) programs and be ready quickly
+- Market is broken horizontally
+  - Hardware
+  - OSes
+  - Applications
+
+== 1990s-Today
+- Connectivity is main priority
+- Networked applications propel industry
+  - Email
+  - Web
+- Protection and multiprogramming less important for individual machines
+- Protection and multiprogramming more important for servers
+- New network-based architectures
+  - Clusters
+  - Grids
+  - Distributed Operating Systems
+  - Cloud
+- Linux everywhere! (except in workstations)
+
+#colbreak()
+
+== Protection Boundaries
+- Multiple privilege levels
+- Different software can run with different privileges
+- Processors provide at least two different modes
+  - User space: How "regular" programs run 
+  - Kernel mode: How the kernel runs
+- The mode determine a number of things
+  - What instructions may be executed
+  - How addresses are translated
+  - What memory locations can be accessed
+
+*Example: Intel*
+#definitions(
+  [Ring 0],[Most privileged level, where kernel runs],
+  [Ring 1/2],[Designed to run device drivers, more restrictions than the kernel, often ignored],
+  [Ring 3],[Where "normal" processes live]
+)
+- Memory is divided into segments
+- Each segment has a privilege level (0 to 3)
+- Processor maintain a current privilege level (CPL)
+- Can read/write in segment when CPL $>=$ segment privilege
+- Cannot directly call code in segment where CPL < segment privilege
+
+*Example: MIPS*
+#definitions(
+  [User mode],[Can access CPU registers; flat uniform virtual memory address space],
+  [Kernel mode],[Can access memory mapping hardware and special registers]
+)
+
+*Changing Protection Level*
+- Sleeping beauty approach
+  - Wait for something to happens to wake up the kernel
+- Alarm clock approach
+  - Set a timer that generate an interrupt when it finishes
+
+*System Calls*
+- Allows userspace programs to interact with the kernel
+- Defined by the API of the operating system
+
+*Traps*
+- An application does unintentionally something it should not
+  - Attempts to divide by 0
+  - Attempts to access invalid memory
+- Any response directly affects the program that generated the trap
+- After a trap has been handled, the processer returns to it's previous activity
+
+#colbreak()
+
+*Interrupts*
+- A hardware or software signal that demands attention from the OS
+- Handled independently of any user program, unlike a trap
