@@ -411,3 +411,119 @@ Used to manipulate operations on databases, with the eventual goal of complete c
 (TP = True Positive, FN = False Negative, FP = False Negative)
 
 *Instrusion Prevention System (IPS):* IDS + Firewall
+
+== SSL/TLS:
+- Developed by Netscape Communications
+- Security layer between the transport and application layers to protect data exchanges
+- Ensures the protection of TCP-based applications (http, telnet, ftp…)
+- Secure applications are renamed: https, telnets, ftps
+
+*SSL version 3.0:*
+- Last SSL version released in 1996
+- Integrated in Netscape Navigator and Microsoft Internet Explorer
+- Broadly used over Internet to protect exchanges to online web services (bank, electronic commerce…)
+- SSLv3 deprecated by Internet Engineering Task Force (IETF) standard organisation in June 2015 (RFC 7568)  as non sufficiently secure
+
+*Transport Layer Security (TLS):* \
+Similar to SSL 3.0 but with a few adjustments:
+- HMAC construction considered by IPsec is adopted
+- Key exchange mechanism based on open-source Data Security Standard
+
+*Initialization phase:*
+- Server must authenticate to client with public key certificate
+- Client can optionally authenticate itself to server
+- Negotiation of security services and mechanisms
+- Establishment of a secret (master) key
+- Phase implemented by the TLS Handshake Protocol
+
+*Data Protection Phase (TLS 1.0-1.2):*
+- Data confidentiality
+- Data integrity/authentication
+- Usage of symmetric encryption to protect this phase
+- Phase implemented by the TLS Record Protocol
+
+#colbreak()
+
+== TLS (continued)
+*TLS Record Protocol:*
+- Fragmentation:    Data blocks are split into smaller fragments
+- Compression:      Data fragments are compressed
+- Encryption:       Data fragments are encrypted
+- MAC Introduction: Ciphered fragments are appended with a MAC
+
+*TLS Sub-Protocols:*
+- Alert: Alarms transmissions through the Record Protocol
+- Change Cipher-Spec: Move to a new security context by the sender
+- Application Data: Direct data communication to the Record Protocol
+- Handshake: Authentication and security parameters established
+
+*TLS Handshake Protocol:* \
+This sub-protocol enables the server and client to:
+- Agree on the TLS version
+- Agree on security parameters (compression + encryption algorithms)
+- Authenticate each other
+- Exchange master keys
+- Perform replay detection
+- Detect message integrity problems
+
+*Key Exchange Methods:*
+- RSA
+- DH-DSS
+- DH_RSA
+- DHE_DSS
+- DHE_RSA
+- DH_anon
+
+*Ciphering Algorithms:*
+- RC4_128
+- 3DES_EDE
+- AES_128_CBC
+- AES_256_CBC
+
+*Hash Functions:*
+- MD5
+- SHA-1
+- SHA-256
+
+#colbreak()
+
+== IP Security (IPsec):
+Used to protect IP traffic between two remote networks
+Initialization Phase:
+- Both entities must authenticate each other (public key + shared secret)
+- Negotiation of security services and mechanisms
+- Establishment of a secret key
+- Phase implemented by the Application level module IKE (Internet Key Exchange)
+*Data Protection Phase:*
+- Data confidentiality
+- Data integrity/authentication
+- Usage of symmetric encryption to protect this phase
+- Phase implemented by the IPsec sub-protocol: AH (Authentication Header) or ESP (Encapsulating Security Payload)
+- Possibility to create a protected tunnel or to secure an IP packet flow
+
+*IPsec Sub-Protocols:*
+- Authentication Header:
+  - Integrity and Authentication of data origin
+  - Replay Detection (optional)
+  - Protection over the packet content and part of the header
+  - Protocol number: 51
+- Encapsulating Security Payload:
+  - Data Confidentiality (optional)
+  - Integrity and Authentication of data origin
+  - Replay Detection (optional)
+  - Protection over packet content only
+
+*IPsec protection modes:*
+#definitions(
+  [Transport],[Only the content of the packet and some fields are protected. Usable only between ends of connection],
+  [Tunnel],[All fields of the packet are protected before being encapsulated in another packet]
+)
+
+*Uses of modes:*
+#table(columns: (auto,auto),
+  [End-to-end Protection],[Tunnel/Transport],
+  [Protection over Network Segments],[Tunnel],
+  [Access from a nomad],[L2TP Tunnel protected by IPsec in Transport mode]
+)
+
+#colbreak()
