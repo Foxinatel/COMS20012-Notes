@@ -709,17 +709,18 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 )
 
 *Changing Protection Level*
-- Sleeping beauty approach
-  - Wait for something to happens to wake up the kernel
-- Alarm clock approach
-  - Set a timer that generate an interrupt when it finishes
+#definitions(
+  columns: (1fr, 2fr),
+  [Sleeping beauty approach],[Wait for something to happens to wake up the kernel],
+  [Alarm clock approach],[Set a timer that generate an interrupt when it finishes]
+)
 
 *System Calls*
 - Allows userspace programs to interact with the kernel
 - Defined by the API of the operating system
 
 *Traps*
-- An application does unintentionally something it should not
+- An application unintentionally does something it should not
   - Attempts to divide by 0
   - Attempts to access invalid memory
 - Any response directly affects the program that generated the trap
@@ -730,3 +731,195 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 *Interrupts*
 - A hardware or software signal that demands attention from the OS
 - Handled independently of any user program, unlike a trap
+
+== Abstractions
+#definitions(
+  [Processes],[Abstract what is being done],
+  [Threads],[Abstract the CPU],
+  [Address Space],[Abstract the memory],
+  [Files],[Abstract the disk]
+)
+
+*Files*
+- What undesirable properties file systems hide?
+  - Disks are slow!
+  - Chunk of storage are distributed all over the disk.
+  - Disk storage may fail.
+- What new capabilities do files add?
+  - Growth and shrinking.
+  - Organization into directories.
+- What information files help to organize?
+  - Ownership and permission.
+  - Access time, modification time, type etc.
+
+*Processes*
+- Processes are not tied to a hardware component
+- They contain and organize other abstractions
+
+*Processes vs Threads*
+- Both described as "running"
+- Processes require multiple resources: CPU, memory, files
+- Threads abstract the CPU
+- A process contains threads, threads belong to a process
+- Kernel threads do not belong to a user space process
+- A process is running when one or more of its threads are running
+
+*Process Example: Firefox*
+- Firefox has multiple threads. What do they do?
+  - Waiting and processing interface events
+  - Redrawing the screen as necessary
+  - Loading elements in web pages
+- Firefox is using memory. For what?
+  - The executable code itself
+  - Shared library: web page parsing, TLS/SSL etc.
+  - Stacks storing local variables for running threads
+  - A heap storing dynamically allocated memory
+- Firefox has files open. Why?
+  - Fonts
+  - Configuration files
+
+#colbreak()
+
+== Memory Layout
+#definitions(
+  [Stack],[Scratch space for a thread of execution. When a function is called, a block is reserved on the top of the stack. When that function returns, the block becomes unused and can be used the next time a function is called.],
+  [Heap],[Used for dynamic allocation, unlike the stack, there is usually only one shared heap.]
+)
+
+*Process as a protection boundary*
+- The OS is responsible for isolating processes from each other. Processes should not directly affect other processes
+- Intra-process communication (between threads) is application responsibility
+  - Shared address space.
+  - Shared file descriptors.
+
+*Physical Memory*
+- Maximum amount of addressable physical memory is $2^P$, where the physical address is P bits long
+- OS161's MIPS is 32 bits = $2^32$ physical addresses = maximum of 4GB memory
+- Modern CPU support large amount of addressable memory
+- x86_64 supports 52-bit physical addressing, 48-bit virtual addressing
+- Needs to be shared between all processes
+- Needs to be carefully managed to avoid processes interfering with one another
+
+*Virtual Memory*
+- The kernel provides virtual memory for each process
+- If virtual memory addresses are V bits, the amount of addressable virtual memory is $2^V$
+  - On OS161/MIPS: V=32
+- Running processes only see virtual memory
+- Each process is isolated in its virtual memory and cannot address the virtual memory of other processes
+- May be larger than physical memory
+
+*Memory-Mapping Unit (MMU)*
+- Is a piece of hardware
+- Maps virtual memory addresses to physical addresses
+- Only configurable by a privileged process (i.e. the kernel)
+
+== Base + Bound
+- Associate virtual address with base and bound register
+- Base: where the physical address space start
+- Bound: the length of the address space (both virtual and physical)
+
+#colbreak()
+
+#table([
+=== Pros:
+- Allow each virtual address space to be of different size
+- Allow each virtual address space to be mapped into any physical RAM of sufficient size
+- Straightforward isolation: just ensure no overlap!
+],[
+=== Cons:
+- Wastes physical memory if the virtual address space is not fully used
+- Same privilege everywhere (read/write/execute)
+- Sharing memory can only happen by overlapping top and bottom of two spaces (if need to be shared by more than 2?)
+])
+
+== Segmentation
+A single address space has multiple logical segments
+- Code: read/execute, fixed size
+- Static data: read/write, fixed size
+- Heap: read/write, dynamic size
+- Stack: read/write, dynamic size
+Each segment is associated with privilege + base + bound
+
+#table([
+=== Pros:
+- Can share memory at the segment granularity
+- Waste less memory (i.e. hole between heap and stack doesn’t need to be mapped)
+- Enables segment granularity memory protection
+],[
+=== Cons:
+- Segments may be large
+  - Need to map the whole segment into memory even to access a single byte
+ - Cannot map only the part of the segment that is utilized
+- Need to find free physical memory large enough to accommodate a segment
+- Explicit segment management is not very elegant (better with partitioned address)
+])
+
+== Paging
+Seperates virtual memory into fixed-size units called pages
+
+#table([
+=== Pros:
+- Can allocate virtual address space with fine granularity
+- Only need to bring small pages that the process needs into the RAM
+],[
+=== Cons:
+- Bookkeeping becomes more complex
+- Lots of small pages to keep track of
+])
+
+#colbreak()
+== Paging (Continued)
+
+*Single-level page table*
+- Need to keep around a mapping between virtual page and physical page
+- Suppose 32bits addresses
+  - 12 bits offset (4kb per page)
+  - 20 bits for page number (\~1 million entries)
+- Each process associated with a mapping
+- Need a table with 1 millions entries
+
+*Two-level page table*
+- Virtual address encodes a directory number, a page number, and an offset
+- Directory number is used to locate a page table, rest functions like a single-level page table
+
+*Swapping pages*
+- Physical RAM may be oversubscribed
+- Total virtual pages greater than the number of physical pages
+- Swapping is moving virtual pages from physical RAM to a swap device
+  - SSD
+  - Hard Drive
+
+*Page Faults*
+- When a process tries to access a page not in memory
+  - MMU detects this and raise an exception
+- The kernel's job on page fault is to:
+  - Swap the page from secondary storage to memory, evicting another page if necessary
+  - Update the Page Table Entry 
+  - Return from the exception so the application can try again
+- Page faults are slow
+  - Milliseconds to swap from harddrive
+  - Microseconds to swap from SSD
+  - Getting a page hit from RAM only takes nanoseconds
+
+== Page Swapping
+#definitions(
+  columns: (1fr, 2fr),
+  [First In First Out (FIFO)],[Remove the page that has been in memory the longest],
+  [MIN],[Replace the page that will not be referenced for the longest],
+  [Least Recently Used (LRU)],[Remove the page that has been used the least recently (temporal locality)],
+  [Clock],[(See next paragraph)]
+)
+
+#colbreak()
+
+*Clock*
+- Add a "used" bit to PTE
+  - Set by MMU when page accessed
+  - Can be cleared by kernel
+- victim = 0
+- while use bit of victim is set
+  - clear use bit of victim
+  - victim = (victim + 1) % num_frames
+- evict victim
+
+
