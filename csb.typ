@@ -521,8 +521,14 @@ Initialization Phase:
 #table(columns: (auto,auto),
   [End-to-end Protection],[Tunnel/Transport],
   [Protection over Network Segments],[Tunnel],
-  [Access from a nomad],[L2TP Tunnel protected by IPsec in Transport mode]
+  [Access from a nomad],[L2TP Tunnel protected by Transport mode IPsec]
 )
+
+=== Security Association (SA):
+A set of parameters for secure communication, e.g.:
+- Choice of protocol (AH or ESP)
+- Choice of algorithm for encryption and hashing
+- Key and initialisation vector
 
 #colbreak()
 
