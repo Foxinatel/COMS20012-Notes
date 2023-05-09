@@ -1,9 +1,10 @@
-#set page(margin: 1.5cm)
+#set page(margin: 1.4cm)
 #set text(
   font: "Liberation Serif",
   size: 11pt,
 )
 #set list(marker: ([•], [--]))
+#set terms(separator: ": ")
 
 #let definitions = table.with(columns : (auto, 1fr))
 
@@ -21,24 +22,24 @@
 )
 
 == The AAA Triad
-*Authentication:* Who are you? \
+/ Authentication: Who are you?
 - Something you are (Biometrics and behaviours)
 - Something you have (Keys)
 - Something you know (Passwords)
 
-*Authorisation:* What can you do? \
-Users should not have access to private information that isn't relevant to them
+/ Authorisation: What can you do?
+- Users should not have access to private information that isn't relevant to them
 
-*Accountability:* Who did what? \
-Ensure any action done by any user is logged and traceable
+/ Accountability: Who did what?
+- Ensure any action done by any user is logged and traceable
 
 == Types of attack
-*Passive Attacks* \
+=== Passive Attacks
 Gathering data via monitoring transmissions
 - Release of message contents
 - Traffic analysis
 
-*Active Attacks* \
+=== Active Attacks
 Involves some modification of an existing data stream or creation of a new fake stream
 #definitions(
   [Masquerade],[Pretending to be someone else],
@@ -48,17 +49,17 @@ Involves some modification of an existing data stream or creation of a new fake 
 )
 
 == Threats
-*Threats to Confidentiality:*
+=== Threats to Confidentiality:
 - Snooping
 - Traffic Analysis
 
-*Threats to Integrity:*
+=== Threats to Integrity:
 - Modification
 - Masquerading
 - Replaying
 - Repudiation
 
-*Threats to Availability:*
+=== Threats to Availability:
 - Denial of Service
 
 #colbreak()
@@ -75,27 +76,27 @@ Involves some modification of an existing data stream or creation of a new fake 
 An attacker who alters the message won't know the secret key used in the MAC function, and therefore cannot spoof a valid message
 
 == Security definitions
-*Unconditionally secure:* \
-Encryption is secure because not enough information is given to decrypt it. (e.g. Vernam/Lorenz)
+=== Unconditionally secure:
+Encryption is secure because not enough information is given to decrypt it (e.g. Vernam/Lorenz)
 
-*Computationally secure:* \
+=== Computationally secure:
 - The cost of breaking the cipher exceeds the value of the encrypted information
 - The time required to break the cipher exceeds the useful lifetime of the information
 
 == History
-*Data Encryption Standard:*
+=== Data Encryption Standard:
 - Issued in 1977 by the National Bureau of Standards (now NIST)
 - Most widely used encryption scheme until AES in 2001
 - Algorithm itself referred to as Data Encryption Algorithm (DEA)
 - Encrypts 64-bit blocks with a 56-bit key (symmetric)
 
-*Morris Worm:*
+=== Morris Worm:
 - The first computer worm
 - Before any real information/network security existed
 - Duplicated itself 14% of the time even if the computer was already infected
 - Result similar to that of a fork bomb
 
-*The brain:*
+=== The brain:
 - The first computer virus
 - No serious malicious intent
 - Overwrote first sector of boot sector with message
@@ -104,19 +105,19 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
 #colbreak()
 
 == Networking
-*Network structure:*
+=== Network structure:
 #definitions(
   [Circuit switching],[Dedicated circuit per call used by all data],
   [Packet switching],[Data sent in discrete packets, each with a path]
 )
 
-*Multiplexing:*
+=== Multiplexing:
 #definitions(
   [FDM],[Each user gets a fixed channel to communicate on],
   [TDM],[Each user gets allotted time slots during which they can communicate]
 )
 
-*OSI model:*
+=== OSI model:
 #table(columns: (auto, auto, 1fr),
   [*Protocol #linebreak() Data Unit*],[*Layer*],[*Responsibility*],
   [Data],[Application],[Network Process to Application],
@@ -128,11 +129,11 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
   [Bits],[Physical],[Media, Signal and Binary Transmission]
 )
 
-*Frame*
+=== Frame
 - A chunk of data created by network communication hardware such as Network Interface Cards and router interfaces
 - Frames contain frame delimiters, hardware addresses, and data encapsulated from higher layer protocols
 
-*Packets*
+=== Packets
 - Typically used to refer to chunks of data created by software
 - Internet Protocol is often described as transmitting packets
 - Packets contain logical addressing information such as IP addresses and data encapsulated from higher layer protocols
@@ -140,47 +141,47 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
 #colbreak()
 
 == Protocols
-*Application:*
+=== Application:
 - Post-Office Protocol (POP3)
 - Simple Mail Transfer Protocol (SMTP)
 - Domain Network System (DNS)
 - File Transfer Protocol (FTP)
 - Telnet
 
-*Presentation:*
+=== Presentation:
 - Telnet (In slides but Google doesn't agree???)
 - Network Data Representation (NDR)
 - Lightweight Presentation Protocol (LPP)
 
-*Session:*
+=== Session:
 - NetBIOS
 
-*Transport:*
+=== Transport:
 - Transmission Control Protocol (TCP)
 - User Datagram Protocol (UDP)
 
-*Network:*
+=== Network:
 - Internet Protocol (IP)
 - Address Resolution Protocol (ARP)
 - Internet Control Message Protocol (ICMP)
 
-*Data link:*
+=== Data link:
 - Serial Line Internet Protocol (SLIP)
 - Point-to-Point Protocol (PPP)
 
-*Physical:*
+=== Physical:
 - IEEE 1394
 - Digital Subscriber Line (DSL)
 - Integrated Services Digital Network (ISDN)
 
 == Network Attacks
-*Categories:*
+=== Categories:
 - Intrusion
 - Blocking
 - Malware
 
 == Attacks on DNS
-*Weakness of DNS:*
+=== Weakness of DNS:
 - TCP/UDP on port 53 (mostly UDP)
 - Unencrypted
 - Easily monitored
@@ -188,7 +189,7 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
 - Can be blocked
 - Can be forged (if DNSSEC not used)
 
-*Threats to DNS:*
+=== Threats to DNS:
 - Corrupted host platforms
 - Wireline and middleware inspection and interception
 - Resolvers that leak queries
@@ -197,29 +198,29 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
 #colbreak()
 
 == Attacks on DNS (continued)
-*DNS Amplification Attack:*
+=== DNS Amplification Attack:
 + Attacker spoofs a victim's IP address
 + Attacker requests large amounts of data from DNS servers
 + DNS servers send the requested data to the victim's IP
 + Victim essentially recieves a DDoS from the DNS servers
 
-*DNS-over-TLS (DoT)*
+=== DNS-over-TLS (DoT)
 - Released in 2016, first established DNS encryption solution
 - Uses secure TLS channel on port 853 instead of common port 53
 - Prevents attackers seeing or manipulating DNS requests
 
-*DNS-over-HTTPS (DoH)*
+=== DNS-over-HTTPS (DoH)
 - Introduced in 2018
 - Uses TLS, like DoT, but does so via HTTPS with port 443
 
 == Attacks on HTTP
-*HTTP Session Hijacking / Cookie Stealing:*
+=== HTTP Session Hijacking / Cookie Stealing:
 + Attacker injects script onto server
 + Victim authenticates on server
 + Victim's browser sends the session cookie to the attacker
 + Attacker can hijack the user's session
 
-*Session Side Jacking:*
+=== Session Side Jacking:
 + Attacker sniffs packets on local network (often unsecured hotspots)
 + If a session isn't entirely encrypted with SSL/TLS, a victim's session key might be contained within packets
 + The attacker can use the session key to hijack the session and impersonate the victim
@@ -227,7 +228,7 @@ Encryption is secure because not enough information is given to decrypt it. (e.g
 *Solution:* Use HTTPS
 
 == Attacks on TCP
-*TCP Handshake:*
+=== TCP Handshake:
 #definitions(
   [SYN],[Client $->$ Server],
   [SYN-ACK],[Client $<-$ Server],
@@ -237,14 +238,13 @@ It's very difficult to intercept a TCP connection that's already established
 
 #colbreak()
 
-*TCP Session Hijacking:* \
-Possible when an attacker is on the same network segment as the
-target machine.
-- Attacker can sniff all back/forth tcp packets and know the seq/ack numbers.
-- Attacker can inject a packet with the correct seq/ack numbers with the spoofed IP address.
+=== TCP Session Hijacking:
+Possible when an attacker is on the same network segment as the target machine
+- Attacker can sniff all back/forth tcp packets and know the seq/ack numbers
+- Attacker can inject a packet with the correct seq/ack numbers with the spoofed IP address
 IP spoofing needs low-level packet programming, OS-based socket programming cannot be used!
 
-*SYN Flooding Attack:* \
+=== SYN Flooding Attack:
 An attacker sends a large number of SYN requests to a target's system
 - Target uses too much memory and CPU resources to process these fake connection requests
 - Target's bandwidth is overwhelmed
@@ -253,13 +253,13 @@ Usually SYN flood packets use spoofed source IPs
 - Hides the attacking source
 - Make it difficult for the target to decide which TCP SYNs are malicious and which are from legitimate users
 
-*Potential Solutions for TCP:*
+=== Potential Solutions for TCP:
 #definitions(
   [Ingress Filtering],[Drop all packets that aren't from expected destination],
   [uRPF Checks],[Only accept packets from interface if forwarding table entry for source IP address matches ingress interface (only works on symmetric routing)]
 )
 
-*SYN Flood Defence: SYN Cookie*
+=== SYN Flood Defence: SYN Cookie
 - Client sends SYN to server
 - Server responds with SYN-ACK cookie
 - Honest client responds with ACK
@@ -267,37 +267,34 @@ Usually SYN flood packets use spoofed source IPs
 - If matches SYN-ACK, establishes connection
 
 == IP Spoofing
-+ In the most basic IP spoofing attack, the hacker intercepts the TCP handshake before the source manages to send its SYN-ACK message.
-+ The hacker sends a fake confirmation including their device address (MAC address) and a spoofed IP address of the original sender.
-+ Now the receiver thinks that the connection was established with the original sender, but they're actually communicating with a spoofed IP.
-IP address spoofing is most often
-used to bypass basic security
-measures such as firewalls that
-rely on blacklisting.
++ In the most basic IP spoofing attack, the hacker intercepts the TCP handshake before the source manages to send its SYN-ACK message
++ The hacker sends a fake confirmation including their device address (MAC address) and a spoofed IP address of the original sender
++ Now the receiver thinks that the connection was established with the original sender, but they're actually communicating with a spoofed IP
+IP address spoofing is most often used to bypass basic security measures such as firewalls that rely on blacklisting
 
 #colbreak()
 
 == IP Spoofing (continued)
-*Denial of service* \
-An attacker can send out millions of requests for files with a spoofed IP addresses, causing all of the responses to be sent to the victim's device.
+=== Denial of service
+An attacker can send out millions of requests for files with a spoofed IP addresses, causing all of the responses to be sent to the victim's device
 
-*Man-in-the-middle attacks* \
-If you're browsing an insecure HTTP address, an attacker can use IP spoofing to pretend they're both you and the service you're speaking to, thereby fooling both parties and gaining access to your communications.
+=== Man-in-the-middle attacks
+If you're browsing an insecure HTTP address, an attacker can use IP spoofing to pretend they're both you and the service you're speaking to, thereby fooling both parties and gaining access to your communications
 
 == Attacks on ARP
-*Address Resolution Protocol (ARP):*
+=== Address Resolution Protocol (ARP):
 - Each IP node (Host, Router) on LAN has an ARP table
 - The ARP table contains mappings from IP to MAC \<IP address; MAC address; TTL>
 - TTL = Time To Live: Time after which the mapping will be forgotten
 - Works by broadcasting requests and caching responses
 
-*ARP Spoofing:*
+=== ARP Spoofing:
 - ARP table is updated whenever a response is recieved
 - Requests are not tracked
 - ARP announcements are not authenticated
 - A rogue machine can use this to spoof other machines
 
-*ARP Spoofing Countermeasures:*
+=== ARP Spoofing Countermeasures:
 - Using static entries (hard to manage)
 - Check for multiple occurences of the same MAC
 - Software detection solutions (Anti-arpspoof, Xarp, Arpwatch)
@@ -310,7 +307,7 @@ If you're browsing an insecure HTTP address, an attacker can use IP spoofing to 
 - SSL spoofing
 
 == Radio Jamming Attack
-By creating a noisy radio signal, we can cause enough interference to disrupt legitimate communication.
+By creating a noisy radio signal, we can cause enough interference to disrupt legitimate communication
 
 == Common types of DDoS attack:
 - Application layer attacks (generate huge amounts of HTTP requests)
@@ -320,7 +317,7 @@ By creating a noisy radio signal, we can cause enough interference to disrupt le
 #colbreak()
 
 == SQL Injection
-Used to manipulate operations on databases, with the eventual goal of complete control over it.
+Used to manipulate operations on databases, with the eventual goal of complete control over it
 
 == Cross-site scripting (XSS)
 - Attacker injects malicious scripts into web applications
@@ -339,44 +336,43 @@ Used to manipulate operations on databases, with the eventual goal of complete c
 - Doesn't completely protect against new threats
 - Doesn't protect against viruses, trojans, etc.
 
-*Generic Techniques for Enforcing Policy:*
+=== Generic Techniques for Enforcing Policy:
 - Service Control: Determine the types of Internet services that can be accessed
 - Direction Control: Determine the direction in which particular service requests are allowed
-- User Control: Controls access to a service according to which user is attempting to access it.
+- User Control: Controls access to a service according to which user is attempting to access it
 
-*Types of Firewall:*
+=== Types of Firewall:
 - Packet Filtering Firewall (Works at Network layer, IP)
 - Circuit-level Gateway (Works at Transport layer, TCP)
 - Stateful Inspection Firewall
 - Application Level Gateway (Works at higher layers)
 
-*Packet Filtering:*
+=== Packet Filtering:
 - Simple and effective, uses packet addresses and transport protocol type to determine policy
 - Works at most up to Transport layer, but on packet level
 - Stateless
 - Fast processing
-- Lack of upper-layer functionality
 - Doesn't supported advanced user authentication schemes
-- Cannot block specific application commands. All-or-nothing
+- Lack of granularity, cannot differentiate between traffic from one application
 
 #colbreak()
 
 == Firewalls (continued)
-*Application-level Gateway (AKA Application Proxy):*
+=== Application-level Gateway (AKA Application Proxy):
 - Acts as a relay for Application-level traffic
 - Tends to be more secure than packet filters
 - Large processing overhead as all traffic must be forwarded
 
-*Stateful Inspection Firewall:*
+=== Stateful Inspection Firewall:
 - Maintains state from one packet to another in the input stream
 - Good at detecting attacks split across muliple packets
 
-*Circuit-level Gateway (AKA Circuit-level proxy):*
+=== Circuit-level Gateway (AKA Circuit-level proxy):
 - Can be stand-alone, or can be performed by an application-level gateway for specific applications
 - Does not permit end-to-end TCP connections
 - Traffic will appear as if it's coming from the gateway itself
 
-*Personal Firewalls:*
+=== Personal Firewalls:
 - Useful to compensate for lack of regular firewall
 - Can generate logs of accesses
 
@@ -388,56 +384,56 @@ Used to manipulate operations on databases, with the eventual goal of complete c
 - Recognizing known attack patterns in system activity
 - Installs and operates traps to record information about intruders
 
-*Signature-Based Intrusion Detection:*
+=== Signature-Based Intrusion Detection:
 - Performs simple pattern-matching corresponding to known attacks, such as lots of incoming TCP SYN packets on many ports
 - Cannot detect attack patterns that aren't yet part of their attack pattern database
 - Attacks will try to modify basic attacks to not match common attack signatures
 - Often uses lots of statistical analysis
 
-*Heuristic Intrusion Detection:*
+=== Heuristic Intrusion Detection:
 - Instead of looking for specific patterns, looks for odd behaviour
 - e.g. One specific user may not often use many admistrator utilities. If they suddenly try to access lots of sensitive management utilities, an attacker may have gained access to their account
 
 #colbreak()
 
-*Responding to Alarms:*
+=== Responding to Alarms:
 - Monitor and collect data about the situation
 - Act to protect the system, like locking certain resources
 - Alert a human to the situation
 
-*Effectiveness:*
+=== Effectiveness:
 - IDSs can't be perfect. The degree of false positives and false negatives represents the sensitivity of the IDS, which can usually be tuned by a system administrator
-- The Detection Rate (DR) is calculated by (TP)/(TP+FN)
-- The Precision is calculated by (TP)/(TP+FP)
+- The Detection Rate (DR) is calculated by $"TP"/("TP"+"FN")$
+- The Precision is calculated by $"TP"/("TP"+"FP")$
 (TP = True Positive, FN = False Negative, FP = False Negative)
 
-*Instrusion Prevention System (IPS):* IDS + Firewall
+/ Instrusion Prevention System (IPS): IDS + Firewall
 
 == SSL/TLS:
 - Developed by Netscape Communications
 - Security layer between the transport and application layers to protect data exchanges
-- Ensures the protection of TCP-based applications (http, telnet, ftp…)
+- Ensures the protection of TCP-based applications
 - Secure applications are renamed: https, telnets, ftps
 
-*SSL version 3.0:*
+=== SSL version 3.0:
 - Last SSL version released in 1996
 - Integrated in Netscape Navigator and Microsoft Internet Explorer
 - Broadly used over Internet to protect exchanges to online web services (bank, electronic commerce…)
 - SSLv3 deprecated by Internet Engineering Task Force (IETF) standard organisation in June 2015 (RFC 7568)  as non sufficiently secure
 
-*Transport Layer Security (TLS):* \
+=== Transport Layer Security (TLS):
 Similar to SSL 3.0 but with a few adjustments:
 - HMAC construction considered by IPsec is adopted
 - Key exchange mechanism based on open-source Data Security Standard
 
-*Initialization phase:*
+=== Initialization phase:
 - Server must authenticate to client with public key certificate
 - Client can optionally authenticate itself to server
 - Negotiation of security services and mechanisms
 - Establishment of a secret (master) key
 - Phase implemented by the TLS Handshake Protocol
 
-*Data Protection Phase (TLS 1.0-1.2):*
+=== Data Protection Phase (TLS 1.0-1.2):
 - Data confidentiality
 - Data integrity/authentication
 - Usage of symmetric encryption to protect this phase
@@ -446,19 +442,19 @@ Similar to SSL 3.0 but with a few adjustments:
 #colbreak()
 
 == TLS (continued)
-*TLS Record Protocol:*
+=== TLS Record Protocol:
 - Fragmentation:    Data blocks are split into smaller fragments
 - Compression:      Data fragments are compressed
 - Encryption:       Data fragments are encrypted
 - MAC Introduction: Ciphered fragments are appended with a MAC
 
-*TLS Sub-Protocols:*
+=== TLS Sub-Protocols:
 - Alert: Alarms transmissions through the Record Protocol
 - Change Cipher-Spec: Move to a new security context by the sender
 - Application Data: Direct data communication to the Record Protocol
 - Handshake: Authentication and security parameters established
 
-*TLS Handshake Protocol:* \
+=== TLS Handshake Protocol:
 This sub-protocol enables the server and client to:
 - Agree on the TLS version
 - Agree on security parameters (compression + encryption algorithms)
@@ -467,7 +463,7 @@ This sub-protocol enables the server and client to:
 - Perform replay detection
 - Detect message integrity problems
 
-*Key Exchange Methods:*
+=== Key Exchange Methods:
 - RSA
 - DH-DSS
 - DH_RSA
@@ -475,13 +471,13 @@ This sub-protocol enables the server and client to:
 - DHE_RSA
 - DH_anon
 
-*Ciphering Algorithms:*
+=== Ciphering Algorithms:
 - RC4_128
 - 3DES_EDE
 - AES_128_CBC
 - AES_256_CBC
 
-*Hash Functions:*
+=== Hash Functions:
 - MD5
 - SHA-1
 - SHA-256
@@ -495,14 +491,15 @@ Initialization Phase:
 - Negotiation of security services and mechanisms
 - Establishment of a secret key
 - Phase implemented by the Application level module IKE (Internet Key Exchange)
-*Data Protection Phase:*
+
+=== Data Protection Phase:
 - Data confidentiality
 - Data integrity/authentication
 - Usage of symmetric encryption to protect this phase
 - Phase implemented by the IPsec sub-protocol: AH (Authentication Header) or ESP (Encapsulating Security Payload)
 - Possibility to create a protected tunnel or to secure an IP packet flow
 
-*IPsec Sub-Protocols:*
+=== IPsec Sub-Protocols:
 - Authentication Header:
   - Integrity and Authentication of data origin
   - Replay Detection (optional)
@@ -514,13 +511,13 @@ Initialization Phase:
   - Replay Detection (optional)
   - Protection over packet content only
 
-*IPsec protection modes:*
+=== IPsec protection modes:
 #definitions(
   [Transport],[Only the content of the packet and some fields are protected. Usable only between ends of connection],
   [Tunnel],[All fields of the packet are protected before being encapsulated in another packet]
 )
 
-*Uses of modes:*
+=== Uses of modes:
 #table(columns: (auto,auto),
   [End-to-end Protection],[Tunnel/Transport],
   [Protection over Network Segments],[Tunnel],
@@ -530,15 +527,15 @@ Initialization Phase:
 #colbreak()
 
 == Software Security
-*Memory corruption bugs:* \
+=== Memory corruption bugs:
 Property of memory unsafe languages. Can lead to:
-- arbitrary read
-- arbitrary write
-- control flow hijack
-- control flow corruption
+- Arbitrary read
+- Arbitrary write
+- Control flow hijack
+- Control flow corruption
 
-*Pointers:*
-- Allow you to refer to (semi) arbitrary memory addresses
+=== Pointers:
+- Allow you to refer to arbitrary memory addresses
 - To introduce a bug: Get a pointer pointing somewhere it shouldn't
 
 #definitions(
@@ -546,24 +543,24 @@ Property of memory unsafe languages. Can lead to:
   [Temporal safety],[Attempting to access memory that was previously freed]
 )
 
-*How do we fix these:*\
+=== How do we fix these:
 Short term:
 - Do not teach programmers unsafe practice
 - Listen to your compiler 
 Longer term:
 - Maybe we should make it harder to do dangerous things?
-- Language standard, compilers, and tools evolve.
+- Language standard, compilers, and tools evolve
 
-*Buffer Overflow:*
+=== Buffer Overflow:
 - Caused by writing more data than intended
 - Leads to memory corruption
-Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of the allocated region.
+Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of the allocated region
 
-*Consequences:*
+=== Consequences:
 - Unintended modification of all memory
 - Arbitrary code execution
 
-*Counermeasures:*
+=== Counermeasures:
 - Modern CPUs don't allow you to write and execute regions of memory at the same time
   - This can still be circumvented with attacks like a "return to libc" attack
 - Stack canaries
@@ -578,7 +575,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 
 #colbreak()
 
-*Format String Errors:*
+=== Format String Errors:
 - Formatted output functions consist of a format string and a variable number  of arguments
 - By manipulating the format string, we can control execution of the formatted output
 - If there are more placeholders than arguments in the format string, the result is undefined
@@ -589,8 +586,8 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 #colbreak()
 
 = Operating Systems
-- Multiplexing: allows multiple people or programs to use the same set of hardware resources -- processors, memory, disks, network connection -- safely and efficiently.
-- Abstractions: processes, threads, address spaces, files, and sockets simplify the usage of hardware resources by organizing information or implementing new capabilities.
+- Multiplexing: allows multiple people or programs to use the same set of hardware resources -- processors, memory, disks, network connection -- safely and efficiently
+- Abstractions: processes, threads, address spaces, files, and sockets simplify the usage of hardware resources by organizing information or implementing new capabilities
 == 1940-1955
 - Computer are exotic experimental equipment
 - Program in machine language
@@ -608,17 +605,17 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Efficient use of hardware (less “downtime”)
 - Hard to debug
 
-*Problems:*
+=== Problems:
 - Utilization is low (one job at a time)
 - No protection between different jobs
 - Short jobs get stuck behind long ones
 
-*Solutions:*
+=== Solutions:
 - Seperate code and data for better memory protection
 - Multiprogramming: many users share the system
 - Scheduling: let short jobs finish quickly
 
-*The First OS:*
+=== The First OS:
 - OS/360 introduced in 1963
 - Lecture notes seem to suggest it didn't really work until 1968 but I don't have any other source for that
 - Written in assembly code
@@ -653,7 +650,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 
 == 1980-1990
 - Put a computer in each terminal!
-- CP/M first personal computer operating system.
+- CP/M first personal computer operating system
 - IBM needed an OS for its PC, CP/M behind schedule
 - Approached Bill Gates (Microsoft) to build one
 - Gates approached Seattle Computer Products, bought 86-DOS, and created MS-DOS
@@ -690,7 +687,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
   - How addresses are translated
   - What memory locations can be accessed
 
-*Example: Intel*
+=== Example: Intel
 #definitions(
   [Ring 0],[Most privileged level, where kernel runs],
   [Ring 1/2],[Designed to run device drivers, more restrictions than the kernel, often ignored],
@@ -702,24 +699,24 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Can read/write in segment when CPL $>=$ segment privilege
 - Cannot directly call code in segment where CPL < segment privilege
 
-*Example: MIPS*
+=== Example: MIPS
 #definitions(
   [User mode],[Can access CPU registers; flat uniform virtual memory address space],
   [Kernel mode],[Can access memory mapping hardware and special registers]
 )
 
-*Changing Protection Level*
+=== Changing Protection Level
 #definitions(
   columns: (1fr, 2fr),
   [Sleeping beauty approach],[Wait for something to happens to wake up the kernel],
   [Alarm clock approach],[Set a timer that generate an interrupt when it finishes]
 )
 
-*System Calls*
+=== System Calls
 - Allows userspace programs to interact with the kernel
 - Defined by the API of the operating system
 
-*Traps*
+=== Traps
 - An application unintentionally does something it should not
   - Attempts to divide by 0
   - Attempts to access invalid memory
@@ -728,7 +725,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 
 #colbreak()
 
-*Interrupts*
+=== Interrupts
 - A hardware or software signal that demands attention from the OS
 - Handled independently of any user program, unlike a trap
 
@@ -740,23 +737,23 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
   [Files],[Abstract the disk]
 )
 
-*Files*
+=== Files
 - What undesirable properties file systems hide?
   - Disks are slow!
-  - Chunk of storage are distributed all over the disk.
-  - Disk storage may fail.
+  - Chunk of storage are distributed all over the disk
+  - Disk storage may fail
 - What new capabilities do files add?
-  - Growth and shrinking.
-  - Organization into directories.
+  - Growth and shrinking
+  - Organization into directories
 - What information files help to organize?
-  - Ownership and permission.
+  - Ownership and permission
   - Access time, modification time, type etc.
 
-*Processes*
+=== Processes
 - Processes are not tied to a hardware component
 - They contain and organize other abstractions
 
-*Processes vs Threads*
+=== Processes vs Threads
 - Both described as "running"
 - Processes require multiple resources: CPU, memory, files
 - Threads abstract the CPU
@@ -764,14 +761,14 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Kernel threads do not belong to a user space process
 - A process is running when one or more of its threads are running
 
-*Process Example: Firefox*
+=== Process Example: Firefox
 - Firefox has multiple threads. What do they do?
   - Waiting and processing interface events
   - Redrawing the screen as necessary
   - Loading elements in web pages
 - Firefox is using memory. For what?
   - The executable code itself
-  - Shared library: web page parsing, TLS/SSL etc.
+  - Shared libraries: web page parsing, TLS/SSL etc.
   - Stacks storing local variables for running threads
   - A heap storing dynamically allocated memory
 - Firefox has files open. Why?
@@ -782,17 +779,17 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 
 == Memory Layout
 #definitions(
-  [Stack],[Scratch space for a thread of execution. When a function is called, a block is reserved on the top of the stack. When that function returns, the block becomes unused and can be used the next time a function is called.],
-  [Heap],[Used for dynamic allocation, unlike the stack, there is usually only one shared heap.]
+  [Stack],[Scratch space for a thread of execution. When a function is called, a block is reserved on the top of the stack. When that function returns, the block becomes unused and can be used the next time a function is called],
+  [Heap],[Used for dynamic allocation, unlike the stack, there is usually only one shared heap]
 )
 
-*Process as a protection boundary*
+=== Process as a protection boundary
 - The OS is responsible for isolating processes from each other. Processes should not directly affect other processes
 - Intra-process communication (between threads) is application responsibility
-  - Shared address space.
-  - Shared file descriptors.
+  - Shared address space
+  - Shared file descriptors
 
-*Physical Memory*
+=== Physical Memory
 - Maximum amount of addressable physical memory is $2^P$, where the physical address is P bits long
 - OS161's MIPS is 32 bits = $2^32$ physical addresses = maximum of 4GB memory
 - Modern CPU support large amount of addressable memory
@@ -800,7 +797,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Needs to be shared between all processes
 - Needs to be carefully managed to avoid processes interfering with one another
 
-*Virtual Memory*
+=== Virtual Memory
 - The kernel provides virtual memory for each process
 - If virtual memory addresses are V bits, the amount of addressable virtual memory is $2^V$
   - On OS161/MIPS: V=32
@@ -808,7 +805,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Each process is isolated in its virtual memory and cannot address the virtual memory of other processes
 - May be larger than physical memory
 
-*Memory-Mapping Unit (MMU)*
+=== Memory-Mapping Unit (MMU)
 - Is a piece of hardware
 - Maps virtual memory addresses to physical addresses
 - Only configurable by a privileged process (i.e. the kernel)
@@ -843,7 +840,7 @@ Each segment is associated with privilege + base + bound
 #table([
 === Pros:
 - Can share memory at the segment granularity
-- Waste less memory (i.e. hole between heap and stack doesn’t need to be mapped)
+- Waste less memory (i.e. hole between heap and stack doesn't need to be mapped)
 - Enables segment granularity memory protection
 ],[
 === Cons:
@@ -870,7 +867,7 @@ Seperates virtual memory into fixed-size units called pages
 #colbreak()
 == Paging (Continued)
 
-*Single-level page table*
+=== Single-level page table
 - Need to keep around a mapping between virtual page and physical page
 - Suppose 32bits addresses
   - 12 bits offset (4kb per page)
@@ -878,18 +875,18 @@ Seperates virtual memory into fixed-size units called pages
 - Each process associated with a mapping
 - Need a table with 1 millions entries
 
-*Two-level page table*
+=== Two-level page table
 - Virtual address encodes a directory number, a page number, and an offset
 - Directory number is used to locate a page table, rest functions like a single-level page table
 
-*Swapping pages*
+=== Swapping pages
 - Physical RAM may be oversubscribed
 - Total virtual pages greater than the number of physical pages
 - Swapping is moving virtual pages from physical RAM to a swap device
   - SSD
   - Hard Drive
 
-*Page Faults*
+=== Page Faults
 - When a process tries to access a page not in memory
   - MMU detects this and raise an exception
 - The kernel's job on page fault is to:
@@ -912,7 +909,7 @@ Seperates virtual memory into fixed-size units called pages
 
 #colbreak()
 
-*Clock*
+=== Clock
 - Add a "used" bit to PTE
   - Set by MMU when page accessed
   - Can be cleared by kernel
