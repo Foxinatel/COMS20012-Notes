@@ -549,8 +549,7 @@ Where:
 
 *Examples:*
 - RSA (Rivest, Shamir, Adleman),
-- ECC (Elliptic Curve Cryptography)
-- NTRU
+- ECC (Elliptic Curve Cryptography), NTRU
 
 
 
@@ -663,8 +662,8 @@ Used to protect IP traffic between two remote networks
 === AH (Authentication Header):
 - *Integrity* and *Authentication* of data origin
 - Replay Detection (optional)
-- Protection over the packet content and part of the header
-- Protocol number: 51
+- Protection over the packet content and part of the header (port 51)
+
 
 === ESP (Encapsulating Security Payload):
   - Data *Confidentiality* (optional)
@@ -752,8 +751,7 @@ Layer Two Tunneling Protocol
 - No services to ensure data protection
 *L2TP entities:*
 - L2TP client (within the device)
-- LNS server: L2TP Network Server responsible for L2TP tunnels 
-management, and located within the company’s IPsec gateway
+- LNS server: L2TP Network Server responsible for L2TP tunnels management, and located within the company’s IPsec gateway
 
 == IPsec VPN connection in detail:
 + First establishing an IPsec session IPsec enabling:
