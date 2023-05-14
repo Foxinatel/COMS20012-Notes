@@ -244,7 +244,7 @@ Mostly for Circuit Switching
 === Application:
 - Post-Office Protocol (POP3) [port 110]
 - Simple Mail Transfer Protocol (SMTP) [port 587]
-- Domain Network System (DNS) [port 53]
+- Domain Name System (DNS) [port 53]
 - File Transfer Protocol (FTP) [port 21]
 - HTTP / HTTPS [port 80 / 443]
 - Telnet [port 23]
