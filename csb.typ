@@ -1360,12 +1360,24 @@ $2 dot 2^12 "bytes" = 8 "kbytes"$
 - Add a "used" bit to PTE
   - Set by MMU when page accessed
   - Can be cleared by kernel
-- victim = 0
-- while use bit of victim is set
-  - clear use bit of victim
-  - victim = (victim + 1) % num_frames
-- evict victim
 
+=== Pseudocode:
+Inputs: victim (v), page (p), number of frames (n), \ use bit (.ub), frames (f)
+
+```typc
+if page exists in frames:
+  set page.ub = 1;
+
+while victim.ub = 1:
+  set victim.ub = 0;
+  victim = (victim + 1) % n;
+
+evict victim
+set frames[victim] = page;
+set page.ub = 1;
+victim = (victim + 1) % n;
+
+```
 #colbreak()
 
 = Operating Systems History:
