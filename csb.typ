@@ -7,6 +7,9 @@
 #set terms(separator: ": ")
 
 #let definitions = table.with(columns : (auto, 1fr))
+#let comparison = table.with(columns : (auto, auto),
+  [*Advantages*],[*Disadvantages*]
+)
 
 #align(center, text(13pt)[
   #heading[CSB Notes]
@@ -14,22 +17,23 @@
 
 #show: rest => columns(2, rest)
 
-== The CIA Triad:
+== The CIA Triad
 #definitions(
   [Confidentiality], [Assures that information cannot be viewed by unintended recipients],
   [Integrity], [Assures that information is free from deliberate or inadvertent unauthorized manipulation],
   [Availability], [Assures that systems work promptly and authorized users won't be denied service]
 )
 
-== OSI Security Architecture Definitions:
+== OSI Security Architecture Definitions
 
 #definitions(
+  columns: (3fr,10fr),
   [Security Attack], [Any action that compromises the security of information owned by an organization],
-  [Security mechanism], [A process (or a device) that is designed to detect, prevent, or recover from a security attack],
-  [Security service], [A service that is intended to enhances the security of data processing systems, making use of one or more security mechanisms]
+  [Security Mechanism], [A process (or a device) that is designed to detect, prevent, or recover from a security attack],
+  [Security Service], [A service that is intended to enhances the security of data processing systems, making use of one or more security mechanisms]
 )
 
-== The AAA Triad:
+== The AAA Triad
 / Authentication: Who are you?
 - Knowledge factor: Something you know (Passwords)
 - Possession factor: Something you have (Keys)
@@ -41,8 +45,8 @@
 / Accountability: Who did what?
 - Ensure any action done by any user is _logged_ and _traceable_
 
-== Types of Attacks:
-== Passive Attacks
+== Types of Attack
+=== Passive Attacks
 Gathering data via monitoring transmissions
 #definitions(
   [Eavesdropping],[Act of secretly listening to the private communications of others without their consent.],
@@ -50,7 +54,7 @@ Gathering data via monitoring transmissions
 )
 
 
-== Active Attacks
+=== Active Attacks
 Involves some modification of an existing data stream or creation of a new fake stream
 
 #colbreak()
@@ -58,13 +62,14 @@ Involves some modification of an existing data stream or creation of a new fake 
 *Active attacks*
 
 #definitions(
+  columns: (2fr,5fr),
   [Masquerade],[Pretending to be someone else],
   [Replay],[The caputure and retransmission of a message (whilst supressing the original message)],
   [Modification],[When a legitimate stream is altered, delayed or reordered],
-  [Denial of Serice],[An attack that inhibits legitimate users from accessing a computer or network.]
+  [Denial of Service],[An attack that inhibits legitimate users from accessing a computer or network.]
 )
 
-== Threats:
+== Threats
 === Threats to Confidentiality
 - Eavesdropping
 - Traffic Analysis
@@ -78,54 +83,53 @@ Involves some modification of an existing data stream or creation of a new fake 
 === Threats to Availability
 - Denial of Service
 
-
-
-== Nonrepudiation:
+== Nonrepudiation
 - Prevents either sender or reciever from denying a transmitted message
 - receiver can verify the sender of a message
 - Sender can verify the reciever of a message
 
-== Hash Functions Requirements:
-- _h(m)_ can be applied to any size _m_
-- _h(m)_ produces a fixed length output
+== Hash Functions Requirements
+- $h(m)$ can be applied to any size $m$
+- $h(m)$ produces a fixed length output
 - It is computationally infeasible:
-  + *Preimage resistant:* To find _m_ given _h(m)_
-  + *Weak collision resistant:* To find another message m' such that h(m)=h(m') and m\u{2260}m'
-  + *Strong collison resistant:* To find two messages m\u{2260}m' such that h(m)=hash(m')
+  - *Preimage resistant:* To find $m$ given $h(m)$
+  - *Weak collision resistant:* To find another message $m'$ such that $h(m)=h(m')$ and $m!=m'$
+  - *Strong collison resistant:* To find two messages $m!=m'$ such that $h(m)=h(m')$
 
-== Message Authentication Code (MAC):
-+ Takes a secret key (_k_) and a data block (_m_) as input
-+ It then produces a hash value (MAC), by running _m_ through a hash function (_h(m)_) and ciphering the output from _h(m)_ using the secret key (_k_)
-+ If the integrity of the message needs to be checked, the MAC function can be applied to the message and the result compared with the associated MAC value
+== Message Authentication Code (MAC)
+- A MAC function takes a secret key ($k$) and a data block ($m$) as input
+- It produces the MAC by applying a hash function to the data ($h(m)$) and then ciphering the output using the secret key
+- If the integrity of the message needs to be checked, the MAC function can be applied to the message and the result compared with the associated MAC value
 
 #colbreak()
-*MAC Continued:*
+
+== MAC (Continued)
 
 An attacker who alters the message won't know the secret key used in the MAC function, and therefore cannot alter a valid message.
 
-== Cryptographic Algorithms:
+== Cryptographic Algorithms
 #definitions(
   [Keyless],[Cryptographic hash function, Pseudo-random number generator],
   [Single-Key],[Block/Stream cipher symmetric encryption, MAC],
   [Two-Key],[Asymmetric encryption, Digital signature, Key exchange, User authentication]
 )
 
-== Security definitions
-*Unconditionally secure:* Encryption is secure because not enough information is given to decrypt it (e.g. Vernam/Lorenz)
+== Security Definitions
+=== Unconditionally secure:
+Encryption is secure because not enough information is given to decrypt it (e.g. Vernam/Lorenz)
 
-*Computationally secure:*
+=== Computationally secure:
 - The cost of breaking the cipher exceeds the value of the encrypted information
 - The time required to break the cipher exceeds the useful lifetime of the information
 
-*Block Cipher*:
-- A symmetric key cipher which encrypts a fixed-length group of (typically 64/128) bits called blocks to ciphertext. The (deterministic) encryption algorithm takes in a key as input and uses it to produce ciphertext on the coresponding block.
+=== Block Cipher:
+A symmetric cipher which encrypts a fixed-length (typically 64/128) group of bits to ciphertext. The encryption algorithm takes a key as input and uses it to produce ciphertext on the corresponding block.
 
-*Stream Cipher*:
-- A symmetric key cipher where plaintext is encrypted one byte at at a time using a bit stream generation algorithm, which takes in a key as input, to produce a ciphertext stream. 
+=== Stream Cipher:
+A symmetric cipher where plaintext is encrypted one byte at a time. This works using a bit stream generation algorithm, which takes a key as input, to produce a ciphertext stream.
 
-
-== History / Case Studies:
-=== Data Encryption Standard (DES)
+== History / Case Studies
+=== Data Encryption Standard (DES):
 - Issued in 1977 by the National Bureau of Standards (now NIST)
 - Most widely used encryption scheme until AES in 2001
 - Algorithm itself referred to as Data Encryption Algorithm (DEA)
@@ -146,13 +150,13 @@ An attacker who alters the message won't know the secret key used in the MAC fun
 - Overwrote first sector of boot sector with message: "Beware of this virus... Contact us for vaccination..."
 
 === 2018 SamSam ransomware attack (DNS):
-- Hackers targeted several US healthcare organizations, using DNS hijacking to redirect traffic from legitimate websites to malicious domains that delivered ransomware payloads.
+Hackers targeted several US healthcare organizations, using DNS hijacking to redirect traffic from legitimate websites to malicious domains that delivered ransomware payloads.
 
 === 2019 Cloudflare DNS hijacking (DNS):
-- Hackers used a vulnerability in Cloudflare’s DNS infrastructure to redirect traffic from several websites, including coinbase.com, to a malicious domain that delivered a cryptocurrency mining payload.
+Hackers used a vulnerability in Cloudflare’s DNS infrastructure to redirect traffic from several websites, including coinbase.com, to a malicious domain that delivered a cryptocurrency mining payload.
 
 === 2017 Exim vulnerability exploit (DNS):
-- Hackers exploited a vulnerability in the Exim mail server software to gain control over the DNS records of several hosting providers, allowing them to redirect traffic from legitimate websites to malicious domains. 
+Hackers exploited a vulnerability in the Exim mail server software to gain control over the DNS records of several hosting providers, allowing them to redirect traffic from legitimate websites to malicious domains. 
 
 === 2022 Google armor attack (DDOS):
 - Google stifled what would have been the largest DDoS attack in the world
@@ -171,8 +175,10 @@ An attacker who alters the message won't know the secret key used in the MAC fun
 //- The attack lasted only about 20 minutes because GitHub has strong DDoS protection protocols in place. 
 
 === 2016 Dyn attack (DDOS):
-- The Marai botnet used an Internet of Things (IoT) army, comprised of almost much every IoT device (i.e., Smart TVs, Printers, Cameras etc.) to overload the Dyn servers.
+The Marai botnet used an Internet of Things (IoT) army, comprised of almost much every IoT device (i.e., Smart TVs, Printers, Cameras etc.) to overload the Dyn servers.
 //-Like most DDoS attacks on large companies, Dyn resolved the attack within a day.
+
+#colbreak()
 
 === 2013 Spamhaus Attack (DDOS):
 - Spamhaus, as an anti-spam organization, is regularly attacked and had DDoS protection services already in place
@@ -181,13 +187,11 @@ An attacker who alters the message won't know the secret key used in the MAC fun
 === 2000 Mafiaboy attacks (DDOS):
 - Multiple attacks that took down the websites of companies like Dell, E-Trade, eBay, and Yahoo
 - Mafiaboy built a network of bots by compromising university computer networks and using them for DDoS attacks
-- The effects of Mafiaboy’s attacks reached as far as the stock market and led to the creation of current cybercrime laws.
-
+- The effects of Mafiaboy's attacks reached as far as the stock market and led to the creation of current cybercrime laws.
 
 == Networking
 
-*Network Security:* This term refers to protection of networks and their service from unauthorized modification, destruction, or disclosure, and provision of assurance that the network performs its critical functions correctly and there are no harmful side effects
-
+*Network Security:* Protection of networks and their service from unauthorized modification, destruction, or disclosure, and provision of assurance that the network performs its critical functions correctly and there are no harmful side effects
 
 === Data routing in a network:
 #definitions(
@@ -204,7 +208,7 @@ Mostly for Circuit Switching
 
 === Attack on each layer:
 #definitions(
-  [Layer],[Attack],
+  [*Layer*],[*Attack*],
   [Application],[Repudiation, Data Corruption, Spyware],
   [Transport],[Session hijacking, SYN Flooding, SEQ number prediction, Smurf attacks, Routing attacks],
   [Network],[IP smurfing, Address spoofing, Resource Consumption],
@@ -214,8 +218,8 @@ Mostly for Circuit Switching
 )
 
 === OSI model:
-#table(columns: (auto, auto, 1fr),
-  [*Protocol #linebreak() Data Unit*],[*Layer*],[*Responsibility*],
+#table(columns: (1fr, 1fr, 2fr),
+  [*Protocol Data Unit*],[*Layer*],[*Responsibility*],
   [Data],[Application],[Where applications can access network services],
   [Data],[Presentation],[Data representation and encryption],
   [Data],[Session],[Inter-host communication],
@@ -246,6 +250,9 @@ Mostly for Circuit Switching
 - Telnet [port 23]
 - Secure Shell (SSH) [port 22]
 
+#colbreak()
+
+== Protocols (Continued)
 === Presentation:
 - Network Data Representation (NDR)
 - Lightweight Presentation Protocol (LPP)
@@ -271,15 +278,16 @@ Mostly for Circuit Switching
 - Digital Subscriber Line (DSL)
 - Integrated Services Digital Network (ISDN)
 
-== Network Attack Categories:
+== Network Attack Categories
 - Intrusion
 - Blocking
 - Malware
 
-== DNS:
+== DNS
 DNS translates human readable domain names to machine readable IP addresses (port 53)
 
 \u{1F4BB} $->$ DNS resolver $->$ DNS server $->$ \u{1F4BB}
+
 === Weaknesses of DNS:
 - TCP/UDP on port 53 (mostly UDP)
 - Unencrypted
@@ -294,14 +302,16 @@ DNS translates human readable domain names to machine readable IP addresses (por
 - Resolvers that leak queries
 - Servers that leak queries
 
-== Attacks on DNS:
+#colbreak()
+
+== Attacks on DNS
 
 === DNS Cache Poisoning:
-- Attackers can poison DNS caches by impersonating DNS nameservers
-  + Making a request to a DNS resolver
-  + and then forging the reply when the DNS resolver queries a nameserver.
-  + The response is then saved in the DNS resolver caches
-  + When a query is made by a user they are directed to a malicious website instead
+Attackers can poison DNS caches by impersonating DNS nameservers
++ Attacker makes a request to a DNS resolver
++ The attacker forges the reply when the DNS resolver queries a nameserver
++ The response is saved in the DNS resolver caches
++ When a query is made by a user they are directed to a malicious website instead
 
 === DNS Amplification Attack:
 + Attacker spoofs a victim's IP address
@@ -333,19 +343,20 @@ DNS translates human readable domain names to machine readable IP addresses (por
 
 *Solution:* Use HTTPS
 
+#colbreak()
+
 == Attacks on TCP
 === TCP Handshake:
 
-#table(columns: (auto, auto, 1fr),
+#table(
+  columns: (auto, auto, 1fr),
   [SYN],[seq = client_seq],[Client $->$ Server],
-  [SYN-ACK],[seq = server_seq#linebreak()ack=client_seq+1
+  [SYN-ACK],[seq = server_seq \ ack = client_seq+1
 ],[Client $<-$ Server],
-  [ACK],[seq=client_seq+1#linebreak()ack=server_seq+1
+  [ACK],[seq = client_seq+1 \ ack = server_seq+1
 ],[Client $->$ Server])
 
 It's very difficult to intercept a TCP connection that's already established
-
-#colbreak()
 
 === TCP Session Hijacking:
 Possible when an attacker is on the same network segment as the target machine
@@ -356,7 +367,8 @@ IP spoofing needs low-level packet programming, OS-based socket programming cann
 === SYN Flooding Attack:
 + An attacker sends a large number of SYN requests to a target's system
 + Target uses too much memory and CPU resources to process these fake connection requests
-+ Target's bandwidth is overwhelmed (Usually SYN flood packets use spoofed source IPs)
++ Target's bandwidth is overwhelmed
+Usually SYN flood packets use spoofed source IPs
 - No TCP connection is set up (unlike TCP hijacking)
 - Hides the attacking source
 - Make it difficult for the target to decide which TCP SYNs are malicious and which are from legitimate users
@@ -367,7 +379,7 @@ IP spoofing needs low-level packet programming, OS-based socket programming cann
   [uRPF Checks],[Only accept packets from interface if forwarding table entry for source IP address matches ingress interface (only works on symmetric routing)]
 )
 
-/ Symmetric routing: A single route for incoming and outgoing network traffic.
+*Symmetric routing:* A single route for incoming and outgoing network traffic
 
 === SYN Flood Defence: SYN Cookie
 + Client sends SYN to server
@@ -377,15 +389,14 @@ IP spoofing needs low-level packet programming, OS-based socket programming cann
 + If matches SYN-ACK, establishes connection
 _Note: server_seq = f(src addr, src port, dest addr, dest port, rand)_
 
+#colbreak()
+
 == IP Spoofing
 + In the most basic IP spoofing attack, the hacker intercepts the TCP handshake before the source manages to send its SYN-ACK message
 + The hacker sends a fake confirmation including their device address (MAC address) and a spoofed IP address of the original sender
 + Now the receiver thinks that the connection was established with the original sender, but they're actually communicating with a spoofed IP
 IP address spoofing is most often used to bypass basic security measures such as firewalls that rely on blacklisting
 
-
-
-== IP Spoofing (continued)
 === Denial of service
 An attacker can send out millions of requests for files with a spoofed IP addresses, causing all of the responses to be sent to the victim's device
 
@@ -413,11 +424,13 @@ If you're browsing an insecure HTTP address, an attacker can use IP spoofing to 
 == MITM Attacks
 *ARP cache poisoning:* The aim is to associate the attacker's MAC address with the IP address of another host, such as the default gateway, causing any traffic meant for that IP address to be sent to the attacker instead.
 
+#colbreak()
+
+== MITM Attacks (Continued)
+
 *DNS spoofing:* An attack where corrupt Domain Name System data is introduced into the DNS resolver's cache, causing the name server to return an incorrect result record.
 
 *IP spoofing:* IP spoofing is the creation of Internet Protocol (IP) packets which have a modified source address in order to either hide the identity of the sender, to impersonate another computer system, or both.
-
-#colbreak()
 
 *Rogue WiFi access point:* An access point that has been installed on a secure network without explicit authorization from a local network administrator that allows wireless devices to connect to and communicate with the network.
 
@@ -426,13 +439,12 @@ If you're browsing an insecure HTTP address, an attacker can use IP spoofing to 
 == Radio Jamming Attack
 By creating a noisy radio signal, we can cause enough interference to disrupt legitimate communication
 
-== Common types of DDoS attack:
+== Common Types of DDoS Attack
 - *Application layer attacks:* Generate huge amounts of HTTP requests
 - *Protocol attacks:* Attacks exploiting weaknesses in the protocols, e.g. SYN flooding (TCP connection), Spoofed IP addresses
-- *Volumetric attacks* Attacks that attempt to consume all of the target’s available bandwidth e.g. DNS Amplification
+- *Volumetric attacks:* Attacks that attempt to consume all of the target’s available bandwidth e.g. DNS Amplification
 
-
-==  Top web security threats:
+==  Top Web Security Threats
 - Phishing
 - Ransomware
 - Viruses / worms
@@ -442,10 +454,12 @@ By creating a noisy radio signal, we can cause enough interference to disrupt le
 === SQL Injection
 Used to manipulate operations on databases, with the eventual goal of having complete control over it
 
-=== Cross-site scripting (XSS)
+=== Cross-site Scripting (XSS)
+Can be used for session stealing
 + Attacker injects malicious scripts into web applications
 + Script will run on victim's devices when they use the app
-- Can be used for session stealing
+
+#colbreak()
 
 == Firewalls
 - Filters traffic between a protected network and the outside
@@ -460,15 +474,15 @@ Used to manipulate operations on databases, with the eventual goal of having com
 - *Doesn't* protect against viruses, trojans, etc.
 
 === Generic Techniques for Enforcing Policy:
-+ *Service Control:* Determine the types of Internet services that can be accessed
-+ *Direction Control:* Determine the direction in which particular service requests are allowed
-+ *User Control:* Controls access to a service according to which user is attempting to access it
+- *Service Control:* Determine the types of Internet services that can be accessed
+- *Direction Control:* Determine the direction in which particular service requests are allowed
+- *User Control:* Controls access to a service according to which user is attempting to access it
 
 === Types of Firewall:
-+ *Packet Filtering Firewall* (Works at Network layer, IP)
-+ *Circuit-level Gateway* (Works at Transport layer, TCP)
-+ *Stateful Inspection Firewall*
-+ *Application Level Gateway* (Works at higher layers)
+- *Packet Filtering Firewall* (Works at Network layer, IP)
+- *Circuit-level Gateway* (Works at Transport layer, TCP)
+- *Stateful Inspection Firewall*
+- *Application Level Gateway* (Works at higher layers)
 
 === Packet Filtering:
 - Simple and effective, uses *packet addresses* and *transport protocol type* to determine policy
@@ -487,6 +501,9 @@ Used to manipulate operations on databases, with the eventual goal of having com
 - Maintains state from one packet to another in the input stream
 - Good at detecting attacks split across muliple packets
 
+#colbreak()
+
+== Firewalls (Continued)
 === Circuit-level Gateway (AKA Circuit-level proxy):
 - Can be stand-alone, or can be performed by an application-level gateway for specific applications
 - Does not permit end-to-end TCP connections
@@ -504,7 +521,7 @@ Typically a dedicated device on a system that monitors for malicious or suspicio
 - Recognizing known attack patterns in system activity
 - Installs and operates traps to record information about intruders
 
-== Types of IDSs:
+== Types of IDS
 
 === Signature-Based Intrusion Detection:
 Performs simple pattern-matching corresponding to known attacks, such as lots of incoming TCP SYN packets on many ports (_SYN flooding_)
@@ -517,57 +534,67 @@ Instead of looking for specific patterns, looks for odd behaviour
 - Builds a model of acceptable behavior and flag exceptions to that model
 - e.g. One specific user may not often use many admistrator utilities. If they suddenly try to access lots of sensitive management utilities, an attacker may have gained access to their account
 
-== ISDs: Response to Alarms
+== IDS: Response to Alarms
 - Monitor and collect data about the situation
 - Act to protect the system, like locking certain resources
 - Alert a human to the situation
+
+#colbreak()
 
 === Effectiveness:
 - IDSs can't be perfect. The degree of false positives and false negatives represents the sensitivity of the IDS, which can usually be tuned by a system administrator
 - *The Detection Rate* (_DR_) is calculated by $"TP"/("TP"+"FN")$
 - *The Precision* is calculated by $"TP"/("TP"+"FP")$
-(TP = True Positive, FN = False Negative, FP = False Negative)
 
-_Note: Ideally one would like to have 0 FP and 0 FN_
 Where:
 - TP: True positive
 - FN: False negative
 - FP: False positive 
 - TN: True negative
+_Note: Ideally one would like to have 0 FP and 0 FN_
 
 / Instrusion Prevention System (IPS): IDS + Firewall
 
-#colbreak()
-
-== Cryptographic Systems:
+== Cryptographic Systems
 
 === Symmetric Encryption:
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+Fast ciphering/deciphering#linebreak()+Longer key, more robust encryption],[-Secure key exchange#linebreak()-The message's origin and validity cannot be guaranteed.]
+#comparison([
+    - Fast ciphering/deciphering
+    - Longer key, more robust encryption
+  ],[
+    - Secure key exchange
+    - The message's origin and validity cannot be guaranteed.
+  ]
+)
+
+*Examples:*
+- Triple-DES
+- AES (Advanced Encryption Standard)
+
+=== Asymmetric Encryption:
+#comparison([
+    - More secure
+    - Distribution problem is eliminated
+    - Enables use of digital signatures
+    - Allows for nonrepudiation
+  ],[
+    - Up to 100x slower than symmetric encryption
+  ]
 )
 
 *Examples:*
 - RSA (Rivest, Shamir, Adleman),
 - ECC (Elliptic Curve Cryptography), NTRU
 
-
-
-=== Asymmetric Encryption:
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+More secure#linebreak()+Distribution problem is eliminated#linebreak()+Enables use of digital signatures#linebreak()+Allows for nonrepudiation],[-Up to 100x slower than symmetric encryption]
-)
-*Examples:*
-- Triple-DES
-- AES (Advanced Encryption Standard)
-
-== SSL/TLS:
+== SSL/TLS
 - Developed by Netscape Communications
 - Security layer between the *Transport* and *Application* layers to protect data exchanges
 - Ensures the protection of TCP-based applications
 - Secure applications are renamed: HTTPS (443), Telnets (992), FTPS (21)
 
+#colbreak()
+
+== SSL/TLS (Continued)
 === SSL version 3.0:
 - Last SSL version released in 1996
 - Integrated in Netscape Navigator and Microsoft Internet Explorer
@@ -578,6 +605,9 @@ Where:
 Similar to SSL 3.0 but with a few adjustments:
 - HMAC construction considered by IPsec is adopted
 - Key exchange mechanism based on open-source Data Security Standard
+TLS organized into 2 parts:
+- TLS record protocol: User data protection
+- 4 sub-protocols TLS: Establishment and management of TLS sessions
 
 === Initialization phase:
 - Server must authenticate to client with public key certificate
@@ -591,11 +621,6 @@ Similar to SSL 3.0 but with a few adjustments:
 - Data integrity/authentication
 - Usage of symmetric encryption to protect this phase
 - Phase implemented by the TLS Record Protocol
-
-== TLS (continued)
-TLS organized into 2 parts:
-– TLS record protocol: User data protection
-– 4 sub-protocols TLS: Establishment and management of TLS sessions
 
 === TLS Record Protocol:
 
@@ -640,8 +665,7 @@ This sub-protocol enables the server and client to:
 - SHA-1
 - SHA-256
 
-
-== IP Security (IPsec):
+== IP Security (IPsec)
 Used to protect IP traffic between two remote networks
 
 === Initialization Phase:
@@ -657,7 +681,9 @@ Used to protect IP traffic between two remote networks
 - Phase implemented by the IPsec sub-protocol: AH (Authentication Header) or ESP (Encapsulating Security Payload)
 - Possibility to create a protected tunnel or to secure an IP packet flow
 
-== IPsec Security (sub-)Protocols:
+#colbreak()
+
+== IPsec Security Sub-Protocols
 
 === AH (Authentication Header):
 - *Integrity* and *Authentication* of data origin
@@ -702,31 +728,33 @@ A set of parameters for secure communication, e.g.:
 *How it works:* Establishing an IP tunnel to exchange data through
 _(Security is optional to protect the tunnel)_
 
-*IP tunnel:* Encapsulating an IP packet into another IP packet
+#colbreak()
 
+=== IP tunnel
+Encapsulating an IP packet into another IP packet
 - The two remote local networks are virtually forming the same local network thanks to the tunnel
 - The packet is going out a private network and is getting into another private network through the tunnel
 
-== Security protocols and VPN:
+== Security protocols and VPN
 Strong need to introduce some security services:
-– Data confidentiality
-– Data integrity
-– Data origin authentication
+- Data confidentiality
+- Data integrity
+- Data origin authentication
 
 Services implemented by the security protocols:
-– IPsec (IP Security)
-– TLS (Transport Layer Security)
+- IPsec (IP Security)
+- TLS (Transport Layer Security)
 
 *Objectives of security protocol:* To protect any communication over a network
 
 Two successive phases:
-– *Initialization phase:* authentication of entities, negotiation of security services, exchange of encryption keys
-– *Data protection phase:* activation of security services over data flows
+- *Initialization phase:* authentication of entities, negotiation of security services, exchange of encryption keys
+- *Data protection phase:* activation of security services over data flows
 
-== IPsec and TLS VPN:
+== IPsec and TLS VPN
 2 main usages:
-+ *Interconnecting LANs*
-+ *Nomad access to a distant network*
+- *Interconnecting LANs*
+- *Nomad access to a distant network*
 
 _Digital nomads are people who travel freely while working remotely using technology and the internet._
 
@@ -740,20 +768,24 @@ Interconnecting remote sites:
 
 *IPsec users* authenticate using their login credentials
 
-== IPsec using a tunnel (L2TP):
+== IPsec Using a Tunnel (L2TP)
 Layer Two Tunneling Protocol
-– Known as the standard protocol of tunneling for switched access 
-– Concurrent proprietary protocol: 
+- Known as the standard protocol of tunneling for switched access 
+- Concurrent proprietary protocol: 
   - PPTP (Point-to-Point Tunneling Protocol) from Microsoft with data encryption
 
-*L2TP Role:*
+#colbreak()
+== IPsec Using a Tunnel (Continued)
+
+=== L2TP Role:
 - Tunnel between a nomad and private network
 - No services to ensure data protection
+
 *L2TP entities:*
 - L2TP client (within the device)
 - LNS server: L2TP Network Server responsible for L2TP tunnels management, and located within the company’s IPsec gateway
 
-== IPsec VPN connection in detail:
+== IPsec VPN Connection in Detail
 + First establishing an IPsec session IPsec enabling:
   - Protection of IP packets being exchanged between the device and the gateway
   - Authentication of the nomad’s equipment
@@ -762,49 +794,58 @@ Layer Two Tunneling Protocol
   - Authentication of the nomadic user
 + Finally, the user accesses to company’s resources
 
-
-
 == TLS VPN
 Interconnecting remote sites:
-– TLS communications between the nomad and the TLS VPN gateway
-– TLS VPN gateway being used as an interface between the device and the applications within the private network
+- TLS communications between the nomad and the TLS VPN gateway
+- TLS VPN gateway being used as an interface between the device and the applications within the private network
 
-*Clientless solution:*
+=== Clientless solution:
 - Creates a secure, remote-access VPN tunnel to an ASA (Adaptive Security Appliances) using a web browser without requiring a software or hardware client.
 
-#colbreak()
-
-*Clientless solution:*
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+No need to install specific clients#linebreak()+Easy management#linebreak()+Lower costs#linebreak()],[-Restricted access to *web applications*]
+=== Clientless solution:
+#comparison([
+  - No need to install specific clients
+  - Easy management
+  - Lower costs
+  ],[
+    -Restricted access to web applications
+  ]
 )
 
 *Client-based solution:*
 - Created a secure, remote-access VPN tunnel between a single user and a remote network.
 
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+Access to private network similar to local connection#linebreak()+Easy management#linebreak()+Lower costs],[-Sometimes need to install and manage an IPsec/VPN client within the nomad]
-)
-
-== Security Protocols
-
-== IPsec
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+Reduced key negotiation overhead and simplified maintenance by supporting the IKE protocol#linebreak()+Good compatibility. You can apply IPsec to all IP-based application systems and services without modifying them.#linebreak()+Encryption on a per-packet rather than per-flow basis.],[-Heavy to manage (application-level IKE module)
-]
-)
-
-== TLS
-#table(columns: (auto, auto),
-  [Advantages],[Disadvantages],
-  [+The most common solution#linebreak()+Largely used for nomads’ remote access protection (VPN)],[-High Latency#linebreak()-Susceptible to MITM attacks)
-]
+#comparison([
+    - Access to private network similar to local connection
+    - Easy management
+    - Lower costs
+  ],[
+    - Sometimes need to install and manage an IPsec/VPN client within the nomad
+  ]
 )
 
 #colbreak()
+== Comparison of Security Protocols
+
+=== IPsec
+#comparison([
+    - Reduced key negotiation overhead and simplified maintenance by supporting the IKE protocol
+    - Good compatibility. You can apply IPsec to all IP-based application systems and services without modifying them
+    - Encryption on a per-packet rather than per-flow basis.
+  ],[
+    -Heavy to manage (application-level IKE module)
+  ]
+)
+
+=== TLS
+#comparison([
+    - The most common solution
+    - Largely used for nomad's remote access protection (VPN)
+  ],[
+    - High Latency
+    - Susceptible to MITM attacks
+  ]
+)
 
 == Software Security
 === Memory corruption bugs:
@@ -831,6 +872,9 @@ Longer term:
 - Maybe we should make it harder to do dangerous things?
 - Language standard, compilers, and tools evolve
 
+#colbreak()
+== Software Security (Continued)
+
 === Buffer Overflow:
 - Caused by writing more data than intended
 - Leads to memory corruption
@@ -853,8 +897,6 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
   - strnpcy is better than strcpy 
   - fgets is better than gets
 
-
-
 === Format String Errors:
 - Formatted output functions consist of a format string and a variable number  of arguments
 - By manipulating the format string, we can control execution of the formatted output
@@ -863,7 +905,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Can be exploited for writing to memory that is out-of-bounds
 
 // Gonna leave a break here due to the marge jump in topic
-
+#colbreak()
 
 = Operating Systems
 - Multiplexing: allows multiple people or programs to use the same set of hardware resources -- processors, memory, disks, network connection -- safely and efficiently
@@ -905,15 +947,20 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Terminals are cheap: everyone gets one! 
 - Emergence of the file systems
 - Try to give reasonable response time 
-- Compatible Time-Sharing System (CTSS)
-  - Developed at MIT
-  - The first general-purpose time-sharing system
-  - Pioneered much of the work on scheduling
-  - Motivation for MULTICS
-- MULTICS
-  - Joint development by MIT, Bell Labs, General Electric
-  - One computer for everyone, people will buy computing as they buy electricity
-  - Many influential ideas: hierarchical file systems, devices as files
+
+=== Compatible Time-Sharing System (CTSS)
+- Developed at MIT
+- The first general-purpose time-sharing system
+- Pioneered much of the work on scheduling
+- Motivation for MULTICS
+
+#colbreak()
+== 1970-1980 (Continued)
+
+=== MULTICS
+- Joint development by MIT, Bell Labs, General Electric
+- One computer for everyone, people will buy computing as they buy electricity
+- Many influential ideas: hierarchical file systems, devices as files
 
 == UNIX
 - Ken Thompson (worked on MULTICS) wanted to use an old computer available at Bell Labs
@@ -954,7 +1001,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
   - Cloud
 - Linux everywhere! (except in workstations)
 
-
+#colbreak()
 
 == Protection Boundaries
 - Multiple privilege levels
@@ -1003,7 +1050,8 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Any response directly affects the program that generated the trap
 - After a trap has been handled, the processer returns to it's previous activity
 
-
+#colbreak()
+== Protection Boundaries (Continued)
 
 === Interrupts
 - A hardware or software signal that demands attention from the OS
@@ -1055,7 +1103,7 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
   - Fonts
   - Configuration files
 
-
+#colbreak()
 
 == Memory Layout
 #definitions(
@@ -1095,18 +1143,17 @@ Arrays are fixed-size blocks of contiguous memory. It's very easy to fall out of
 - Base: where the physical address space start
 - Bound: the length of the address space (both virtual and physical)
 
+#colbreak()
 
-
-#table([
-=== Pros:
-- Allow each virtual address space to be of different size
-- Allow each virtual address space to be mapped into any physical RAM of sufficient size
-- Straightforward isolation: just ensure no overlap!
-],[
-=== Cons:
-- Wastes physical memory if the virtual address space is not fully used
-- Same privilege everywhere (read/write/execute)
-- Sharing memory can only happen by overlapping top and bottom of two spaces (if need to be shared by more than 2?)
+== Base + Bound (Continued)
+#comparison([
+  - Allow each virtual address space to be of different size
+  - Allow each virtual address space to be mapped into any physical RAM of sufficient size
+  - Straightforward isolation: just ensure no overlap!
+  ],[
+  - Wastes physical memory if the virtual address space is not fully used
+  - Same privilege everywhere (read/write/execute)
+  - Sharing memory can only happen by overlapping top and bottom of two spaces
 ])
 
 == Segmentation
@@ -1117,35 +1164,28 @@ A single address space has multiple logical segments
 - Stack: read/write, dynamic size
 Each segment is associated with privilege + base + bound
 
-#table([
-=== Pros:
-- Can share memory at the segment granularity
-- Waste less memory (i.e. hole between heap and stack doesn't need to be mapped)
-- Enables segment granularity memory protection
-],[
-=== Cons:
-- Segments may be large
+#comparison([
+  - Can share memory at the segment granularity
+  - Waste less memory (i.e. hole between heap and stack doesn't need to be mapped)
+  - Enables segment granularity memory protection
+  ],[
+  - Segments may be large
   - Need to map the whole segment into memory even to access a single byte
- - Cannot map only the part of the segment that is utilized
-- Need to find free physical memory large enough to accommodate a segment
-- Explicit segment management is not very elegant (better with partitioned address)
+  - Cannot map only the part of the segment that is utilized
+  - Need to find free physical memory large enough to accommodate a segment
+  - Explicit segment management is not very elegant (better with partitioned address)
 ])
 
 == Paging
 Seperates virtual memory into fixed-size units called pages
 
-#table([
-=== Pros:
-- Can allocate virtual address space with fine granularity
-- Only need to bring small pages that the process needs into the RAM
-],[
-=== Cons:
-- Bookkeeping becomes more complex
-- Lots of small pages to keep track of
+#comparison([
+  - Can allocate virtual address space with fine granularity
+  - Only need to bring small pages that the process needs into the RAM
+  ],[
+  - Bookkeeping becomes more complex
+  - Lots of small pages to keep track of
 ])
-
-
-== Paging (Continued)
 
 === Single-level page table
 - Need to keep around a mapping between virtual page and physical page
@@ -1162,17 +1202,17 @@ Seperates virtual memory into fixed-size units called pages
 === Swapping pages
 - Physical RAM may be oversubscribed
 - Total virtual pages greater than the number of physical pages
-- Swapping is moving virtual pages from physical RAM to a swap device
-  - SSD
-  - Hard Drive
+- Swapping is moving virtual pages from physical RAM to a swap device (any storage device)
+  // - SSD
+  // - Hard Drive
 
 === Page Faults
 - When a process tries to access a page not in memory
   - MMU detects this and raise an exception
 - The kernel's job on page fault is to:
-  - Swap the page from secondary storage to memory, evicting another page if necessary
-  - Update the Page Table Entry 
-  - Return from the exception so the application can try again
+  + Swap the page from secondary storage to memory, evicting another page if necessary
+  + Update the Page Table Entry 
+  + Return from the exception so the application can try again
 - Page faults are slow
   - Milliseconds to swap from harddrive
   - Microseconds to swap from SSD
