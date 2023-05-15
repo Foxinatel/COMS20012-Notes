@@ -181,7 +181,7 @@ The Marai botnet used an Internet of Things (IoT) army, comprised of almost much
 
 === 2013 Spamhaus Attack (DDOS):
 - Spamhaus, as an anti-spam organization, is regularly attacked and had DDoS protection services already in place
-- Howeverm, this attack estimated at 300 gigabits of traffic per second — was large enough to knock its website and part of its email services offline.
+- However, this attack estimated at 300 gigabits of traffic per second — was large enough to knock its website and part of its email services offline.
 
 === 2000 Mafiaboy attacks (DDOS):
 - Multiple attacks that took down the websites of companies like Dell, E-Trade, eBay, and Yahoo
@@ -243,7 +243,7 @@ Mostly for Circuit Switching
 === Application:
 - Post-Office Protocol (POP3) [port 110]
 - Simple Mail Transfer Protocol (SMTP) [port 587]
-- Domain Network System (DNS) [port 53]
+- Domain Name System (DNS) [port 53]
 - File Transfer Protocol (FTP) [port 21]
 - HTTP / HTTPS [port 80 / 443]
 - Telnet [port 23]
@@ -1372,7 +1372,7 @@ while victim.ub = 1:
   set victim.ub = 0;
   victim = (victim + 1) % n;
 
-evict victim
+evict victim;
 set frames[victim] = page;
 set page.ub = 1;
 victim = (victim + 1) % n;
